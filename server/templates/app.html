@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <title>COMP90074 Assignment 1</title>  
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="page-container">
+    <div class="login-container">
+      <div class="login-header">Share Your Idea</div>
+      <div class="login-instructions">
+	Welcome, <b>{{session["username"]}}</b>. <a href="/changepassword">Change Password</a> | <a href="/logout">Logout</a>
+      </div>
+      {% autoescape false %}
+      <form method="POST" action="/post" class="message-form">
+        <textarea class="message-input" placeholder="What's on your mind?" name="msg" id="msg"></textarea>
+        <button class="post-button" type="submit">Post</button>
+      </form>
+
+      <form method="GET" action="/search" class="message-form" style="display:flex">
+        <input class="search-input" placeholder="Search... (one word only)" name="query" id="query" />
+        <button class="search-button" type="submit">Search</button>
+      </form>
+
+      {% if query %}
+      Search request for <b>{{ query }}</b>:
+      {% endif %}
+
+      {% if messages %}
+      {% for msg in messages %}
+      <div class="message">
+        {% if session["username"] == "admin" or session["username"] == msg.postedby %}
+        <form action="/deletemsg" method="POST">
+          <input type="hidden" name="id" value="{{ msg.id }}">
+          <button type="submit" class="delete-button" title="Delete Post">
+            <span class="delete-icon">&#10006;</span>
+          </button>
+        </form>
+        {% endif %}
+
+        <div class="postedby">{{ msg.postedby }}</div>
+        <div class="content">{{ msg.content }}</div>
+        <div class="timestamp">{{ msg.timestamp }} </div>
+	
+      </div>
+      {% endfor %}
+      {% endif %}
+      
+      {% if previous_page %}
+      <a href="?page={{previous_page}}">Previous</a>
+      {% endif %}
+      {% if next_page %}
+      <a href="?page={{next_page}}">Next</a>
+      {% endif %}
+    </div>
+    <div class="login-container">
+      <a href="#">COMP90074 2025 A1</a>
+    </div>
+  </div>
+</body>
+</html>
+{% endautoescape %}

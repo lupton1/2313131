@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">    
+    <title>COMP90074 Assignment 1 - Signup</title>
+  </head>
+  <body>
+    <div class="page-container">      
+      <div class="login-container">
+	<div class="login-header">Sign-Up</div>
+	<div class="login-instructions">Already have an account? <a href="/login">Login</a></div>
+      {% if error %}
+      <div class="login-error">Username already exists.</div>
+      {% endif %}
+
+	<form method="POST" class="login-form">
+	  <input class="login-input" type="text" placeholder="Username" name="username" id="username" maxlength="12" required>
+	  <input class="login-input" type="password" placeholder="Password" name="password" maxlength="32" required>
+	  <button class="login-button" type="submit">Sign-Up</button>
+	</form>
+      </div>
+    </div>
+  </body>
+</html>
